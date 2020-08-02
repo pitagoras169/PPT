@@ -31,6 +31,6 @@ void init_markov(struct Markov_node *node);
 void update_markov(struct Markov_node *node, std::string obs_choice);
 std::string markov_choice(struct Markov_node *node);
 void print_markov_node(struct Markov_node *node);
-
+void display_statistics(int nb_games_user_won,int nb_games_machine_won,int nb_games_tie);
 
 

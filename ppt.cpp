@@ -182,3 +182,11 @@ std::string choice_machine_toString(std::string machine_choice){
 		return "Error";
 	}
 }
+
+void display_statistics(int nb_games_user_won,int nb_games_machine_won,int nb_games_tie){
+	std::cout << "Statistics : you won " + std::to_string(100 * nb_games_user_won/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
+	std::cout << "Statistics : you lost " + std::to_string(100 * nb_games_machine_won/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
+	std::cout << "Statistics : you tied " + std::to_string(100 * nb_games_tie/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
+
+}
+

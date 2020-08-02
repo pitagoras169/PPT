@@ -16,6 +16,9 @@ int main(void){
 	int max_nb_games = MAX_GAMES;
 	std::string user_choice_previous;
 	int winner_previous;
+	int nb_games_user_won = 0;
+	int nb_games_machine_won = 0;
+	int nb_games_tie = 0;
 
 	//Creating markov nodes
 	Markov_node RW;
@@ -118,7 +121,17 @@ int main(void){
 
 		//Calculate who wins
 		winner_current = who_won(user_choice,machine_choice);
-
+		
+		//Add to statistics
+		switch (winner_current){
+			case 0 : 
+				nb_games_tie++;
+				break;
+			case 1 :
+				nb_games_user_won++;
+			case 2 : 
+				nb_games_machine_won++;
+		}
 		//Output the result
 		output_result_current(winner_current);
 
@@ -129,8 +142,9 @@ int main(void){
 	}
 
 	
-
-
+	//Statistics of the games
+	display_statistics(nb_games_user_won,nb_games_machine_won,nb_games_tie);
+	
 	//Exit message
 	std::cout << "Thanks for playing with me. Hope to see you soon :-)\n";
 
