@@ -32,19 +32,103 @@ std::string random_ppt (void){
 	return random_choice_string;
 }
 
+int who_won(std::string user_choice,std::string machine_choice){
+	/*This function calculates who won.
+	0 : means there is a tie
+	1 : means the user won
+	2 : means the machine won
+	3 : there was an error
+	*/
+
+	//start with a tie. 
+	int result_who_won = 0;
+
+	//If user chooses Rock
+	if (user_choice == "r") { 
+		if (machine_choice == "p"){
+			result_who_won = 2;
+		}
+		if (machine_choice == "s"){
+			result_who_won = 1;
+		}
+	
+	//If user chooses Paper	
+	} else if (user_choice == "p"){
+		if (machine_choice == "s"){
+			result_who_won = 2;
+		}
+		if (machine_choice == "r"){
+			result_who_won = 1;
+		}
+	
+	//If user chooses Scissors	
+	} else if (user_choice == "s"){
+		if (machine_choice == "r"){
+			result_who_won = 2;
+		}
+		if (machine_choice == "p"){
+		result_who_won = 1;
+		}
+
+	//If the user didn't choose a valid input
+	} else {
+		result_who_won = 3;
+	}
+
+	//Return the result of the match
+	return result_who_won;
+}
+
+
+void output_result_current (int winner_current){
+	switch (winner_current) {
+		case 0 :
+			std::cout << "There is a tie\n";
+			break;
+		case 1 : 
+			std::cout << "You won!\n";
+			break;
+		case 2 : 
+			std::cout << "You loose!\n";
+			break;
+		case 3 :
+			std::cout << "Invalid Choice\n";
+			break;
+		default:
+			std::cout <<"Error\n";
+	}
+}
+
+
 int main(void){
 
 	int nb_partidas = 0;
 	std::string user_choice;
+	std::string machine_choice;
+	int winner_current;
 
 
 	// Mensaje de bienvenida
 	std::cout << "Wellcome to Rock Paper Scissors. \n";
 
+
+	//Next user move message
 	std::cout << "What is your next move ? Rock (r), Paper (p) or Scissors (s) ? ";
 	std::cin >> user_choice;
-	std::cout << "\n";
-	std::cout << "User choice = " + user_choice + "\n";
-	std::cout << random_ppt();
+
+	//Next Machine move
+	machine_choice = random_ppt();
+	std::cout << "Machine Choice = " + machine_choice + "\n";
+
+	//Calculate who wins
+	winner_current = who_won(user_choice,machine_choice);
+
+	//Output the result
+	output_result_current(winner_current);
+
+
+
+
+
 
 }
