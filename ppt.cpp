@@ -5,6 +5,60 @@
 #include "ppt.hpp"
 
 
+void init_markov(struct Markov_node *node){
+
+	node->nb_times = 0;
+	//Number of times transition from current to Rock
+	node->nb_times_toR = 0;
+	//Number of times transition from current to Paper
+	node->nb_times_toP = 0;
+	//Number of times transition from current to Scissors
+	node->nb_times_toS = 0;
+	//Probability next move is Rock
+	node->proba_R = 1.0/3;
+	//Probability next move is Paper
+	node->proba_P = 1.0/3;
+	//Probability next move is Scissors
+	node->proba_S = 1.0/3;
+}
+
+void print_markov_node(struct Markov_node *node){
+	std::cout << "New Markov Update: \n";
+	std::cout << "Nb_times = " + std::to_string(node->nb_times) + " .\n";
+	std::cout << "nb_times_toR = " + std::to_string(node->nb_times_toR) + " .\n";
+	std::cout << "nb_times_toP = " + std::to_string(node->nb_times_toP) + " .\n";
+	std::cout << "nb_times_toS = " + std::to_string(node->nb_times_toS) + " .\n";
+	std::cout << "proba_R = " + std::to_string(node->proba_R) + " .\n";
+	std::cout << "proba_P = " + std::to_string(node->proba_P) + " .\n";
+	std::cout << "proba_S = " + std::to_string(node->proba_S) + " .\n";
+
+}
+
+
+void update_markov(struct Markov_node *node, std::string obs_choice){
+	
+	print_markov_node(node);
+
+	node->nb_times = node->nb_times + 1;
+	if (obs_choice == "r"){
+		node->nb_times_toR = node->nb_times_toR + 1;
+	} else if (obs_choice == "p"){
+		node->nb_times_toP = node->nb_times_toP + 1;
+	} else if(obs_choice == "s"){
+		node->nb_times_toS = node->nb_times_toS +1;
+	} else {
+		std::cout << "Invalid choice";
+	}
+	
+	//Probability next move is Rock
+	node->proba_R = node->nb_times_toR/node->nb_times;
+	//Probability next move is Paper
+	node->proba_P = node->nb_times_toP/node->nb_times;
+	//Probability next move is Scissors
+	node->proba_S = node->nb_times_toS/node->nb_times;
+
+	print_markov_node(node);
+}
 
 
 std::string random_ppt (void){
@@ -32,6 +86,23 @@ std::string random_ppt (void){
 	}
 	return random_choice_string;
 }
+
+std::string markov_choice(struct Markov_node *node){
+	//If the user is more likely to choose Rock --> Let's choose Paper
+	if ((node->proba_R >= node->proba_P) && (node->proba_R >= node->proba_S)){
+		return "p";
+	}
+	//If the user is more likely to choose Paper --> Let's choose Scissors
+	if ((node->proba_P >= node->proba_R) && (node->proba_P >= node->proba_S)){
+		return "s";
+	}
+	//If the user is more likely to choose Scissors --> Let's choose Rock
+	if ((node->proba_S >= node->proba_R) && (node->proba_S >= node->proba_P)){
+		return "r";
+	}
+	return "e";
+}
+
 
 int who_won(std::string user_choice,std::string machine_choice){
 	/*This function calculates who won.
