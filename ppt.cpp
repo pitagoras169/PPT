@@ -51,6 +51,7 @@ void update_markov(struct Markov_node *node, std::string obs_choice){
 	}
 	
 	//Probability next move is Rock
+	//Added 1.0 * to avoid int division
 	node->proba_R = 1.0 * node->nb_times_toR/node->nb_times;
 	//Probability next move is Paper
 	node->proba_P = 1.0 * node->nb_times_toP/node->nb_times;
