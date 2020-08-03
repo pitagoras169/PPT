@@ -19,6 +19,8 @@ int main(void){
 	int nb_games_user_won = 0;
 	int nb_games_machine_won = 0;
 	int nb_games_tie = 0;
+	std::string user_choice_history;
+	std::string machine_choice_history;
 
 	//Creating markov nodes
 	Markov_node RW;
@@ -57,6 +59,9 @@ int main(void){
 		//Next user move message
 		std::cout << "What is your next move ? Rock (r), Paper (p) or Scissors (s) ? Quit (q) ";
 		std::cin >> user_choice;
+
+		//Reccord user choice for log file
+		user_choice_history += user_choice;
 
 		if(user_choice == "q"){
 			break;
@@ -118,6 +123,8 @@ int main(void){
 
 		//Next Machine move
 		//machine_choice = random_ppt();
+
+		machine_choice_history += machine_choice;
 		machine_choice_msg = choice_machine_toString(machine_choice);
 		std::cout << "Machine Choice = " + machine_choice_msg + "\n";
 
@@ -147,6 +154,9 @@ int main(void){
 	//Statistics of the games
 	display_statistics(nb_games_user_won,nb_games_machine_won,nb_games_tie);
 	
+	//Save log files
+	save_log_file (user_choice_history,machine_choice_history);
+
 	//Exit message
 	std::cout << "Thanks for playing with me. Hope to see you soon :-)\n";
 

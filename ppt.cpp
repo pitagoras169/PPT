@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include <chrono>
+#include <ctime>   
 #include "ppt.hpp"
 
 
@@ -37,7 +39,7 @@ void print_markov_node(struct Markov_node *node){
 
 void update_markov(struct Markov_node *node, std::string obs_choice){
 	
-	print_markov_node(node);
+	//print_markov_node(node);
 
 	node->nb_times = node->nb_times + 1;
 	if (obs_choice == "r"){
@@ -58,7 +60,7 @@ void update_markov(struct Markov_node *node, std::string obs_choice){
 	//Probability next move is Scissors
 	node->proba_S = 1.0 * node->nb_times_toS/node->nb_times;
 
-	print_markov_node(node);
+	//print_markov_node(node);
 }
 
 
@@ -190,4 +192,30 @@ void display_statistics(int nb_games_user_won,int nb_games_machine_won,int nb_ga
 	std::cout << "Statistics : you tied " + std::to_string(100 * nb_games_tie/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
 
 }
+
+void save_log_file(std::string user_choice_history,std::string machine_choice_history){
+
+	std::string log_file_name;
+
+	//Create the log file name using the date and time
+	std::time_t t = std::time(0);   // get time now
+    std::tm* now = std::localtime(&t);
+
+	log_file_name = "log_rps_" + std::to_string((now->tm_year + 1900)) + "-";
+	log_file_name += std::to_string((now->tm_mon + 1)) + "-";
+	log_file_name += std::to_string(now->tm_mday) + "@";
+	log_file_name += std::to_string(now->tm_hour) + "h";
+	log_file_name += std::to_string(now->tm_min) + "m";
+    log_file_name += std::to_string(now->tm_sec) + "s";
+	log_file_name += ".txt";
+
+	std::ofstream outfile (log_file_name);
+
+	outfile << "User choice history: " + user_choice_history << std::endl;
+	outfile << "Machine choice history: " + machine_choice_history << std::endl;
+
+	//Close the log file
+	outfile.close();
+}
+
 

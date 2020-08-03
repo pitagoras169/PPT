@@ -1,8 +1,13 @@
 #include <iostream>
+#include <fstream> 
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
 #define MAX_GAMES 100
+
+
+
+
 
 
 //Data structure for the markov chain
@@ -32,5 +37,5 @@ void update_markov(struct Markov_node *node, std::string obs_choice);
 std::string markov_choice(struct Markov_node *node);
 void print_markov_node(struct Markov_node *node);
 void display_statistics(int nb_games_user_won,int nb_games_machine_won,int nb_games_tie);
-
+void save_log_file(std::string user_choice_history,std::string machine_choice_history);
 
