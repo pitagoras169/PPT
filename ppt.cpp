@@ -51,11 +51,11 @@ void update_markov(struct Markov_node *node, std::string obs_choice){
 	}
 	
 	//Probability next move is Rock
-	node->proba_R = node->nb_times_toR/node->nb_times;
+	node->proba_R = 1.0 * node->nb_times_toR/node->nb_times;
 	//Probability next move is Paper
-	node->proba_P = node->nb_times_toP/node->nb_times;
+	node->proba_P = 1.0 * node->nb_times_toP/node->nb_times;
 	//Probability next move is Scissors
-	node->proba_S = node->nb_times_toS/node->nb_times;
+	node->proba_S = 1.0 * node->nb_times_toS/node->nb_times;
 
 	print_markov_node(node);
 }
