@@ -51,6 +51,8 @@ int main(void){
 	user_choice_previous = "r";
 	winner_previous = 1;
 
+
+	//Loop over game iterations
 	for (iter = 0 ; iter < max_nb_games ; iter++){
 		//Next user move message
 		std::cout << "What is your next move ? Rock (r), Paper (p) or Scissors (s) ? Quit (q) ";
@@ -60,7 +62,7 @@ int main(void){
 			break;
 		}
 
-		//Update markov weights
+		//Chose Move & Update markov weights
 		switch (winner_previous){
 			//If the previous game was a tie
 			case 0 :
