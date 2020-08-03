@@ -138,8 +138,12 @@ int main(void){
 				break;
 			case 1 :
 				nb_games_user_won++;
+				break;
 			case 2 : 
 				nb_games_machine_won++;
+				break;
+			default :
+				std::cout << "Error who_won\n";
 		}
 		//Output the result
 		output_result_current(winner_current);
