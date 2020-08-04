@@ -1,3 +1,17 @@
+/*-----------------------------------------------------------------
+Rock Paper Scissors Game
+
+Author : Guillermo PITA GIL
+Created : 02 - Aug - 2020
+
+Algorithm : 
+
+	- using 3 markov chains : one different after a win/loose/tie
+	- transition probabilities estimated by max likelyhood
+	- games logged for further analysis in text files
+
+-----------------------------------------------------------------*/
+
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -6,6 +20,15 @@
 #include <ctime>   
 #include "ppt.hpp"
 
+
+
+std::string get_user_choice(void){
+	//Function to get the human user choice from terminal
+	std::string user_c;
+	std::cout << "What is your next move ? Rock (r), Paper (p) or Scissors (s) ? Quit (q) ";
+	std::cin >> user_c;
+	return user_c;
+}
 
 void init_markov(struct Markov_node *node){
 
@@ -24,6 +47,23 @@ void init_markov(struct Markov_node *node){
 	node->proba_S = 1.0/3;
 }
 
+
+void init_all_markov(Markov_node *RW, Markov_node *RL, Markov_node *RT,Markov_node *PW, Markov_node *PL, Markov_node *PT,Markov_node *SW, Markov_node *SL, Markov_node *ST){
+
+	//Init all sets of nodes to equal probability
+	init_markov(RW);
+	init_markov(RL);
+	init_markov(RT);
+	init_markov(PW);
+	init_markov(PL);
+	init_markov(PT);
+	init_markov(SW);
+	init_markov(SL);
+	init_markov(ST);
+
+}
+
+
 void print_markov_node(struct Markov_node *node){
 	std::cout << "New Markov Update: \n";
 	std::cout << "Nb_times = " + std::to_string(node->nb_times) + " .\n";
@@ -39,7 +79,7 @@ void print_markov_node(struct Markov_node *node){
 
 void update_markov(struct Markov_node *node, std::string obs_choice){
 	
-	//print_markov_node(node);
+	print_markov_node(node);
 
 	node->nb_times = node->nb_times + 1;
 	if (obs_choice == "r"){
@@ -59,8 +99,7 @@ void update_markov(struct Markov_node *node, std::string obs_choice){
 	node->proba_P = 1.0 * node->nb_times_toP/node->nb_times;
 	//Probability next move is Scissors
 	node->proba_S = 1.0 * node->nb_times_toS/node->nb_times;
-
-	//print_markov_node(node);
+	print_markov_node(node);
 }
 
 
@@ -155,7 +194,7 @@ int who_won(std::string user_choice,std::string machine_choice){
 }
 
 
-void output_result_current (int winner_current){
+void display_result_current (int winner_current){
 	switch (winner_current) {
 		case 0 :
 			std::cout << "There is a tie\n";
@@ -190,8 +229,14 @@ void display_statistics(int nb_games_user_won,int nb_games_machine_won,int nb_ga
 	std::cout << "Statistics : you won " + std::to_string(100 * nb_games_user_won/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
 	std::cout << "Statistics : you lost " + std::to_string(100 * nb_games_machine_won/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
 	std::cout << "Statistics : you tied " + std::to_string(100 * nb_games_tie/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
-
+	
 }
+
+void display_exit_message(void){
+	std::cout << "Thanks for playing with me. Hope to see you soon :-)\n";
+}
+
+
 
 void save_log_file(std::string user_choice_history,std::string machine_choice_history){
 
@@ -216,6 +261,128 @@ void save_log_file(std::string user_choice_history,std::string machine_choice_hi
 
 	//Close the log file
 	outfile.close();
+}
+
+void add_statistics(int winner_current, int *nb_games_tie, int *nb_games_user_won, int *nb_games_machine_won){
+
+	switch (winner_current){
+		case 0 : 
+			*nb_games_tie = *nb_games_tie + 1;
+			break;
+		case 1 :
+			*nb_games_user_won = *nb_games_user_won +1;
+			break;
+		case 2 : 
+			*nb_games_machine_won = *nb_games_machine_won +1;
+			break;
+		default :
+			std::cout << "Error who_won\n";
+	}
+}
+
+void display_machine_choice(std::string machine_choice){
+	//Display the machine's choice for the current game
+	std::string machine_choice_msg;
+	machine_choice_msg = choice_machine_toString(machine_choice);
+	std::cout << "Machine Choice = " + machine_choice_msg + "\n";
+
+}
+
+
+
+std::string get_machine_next_move(int winner_previous,std::string user_choice_previous,Markov_node *RT,Markov_node *PT,Markov_node *ST,Markov_node *RW,Markov_node *PW,Markov_node *SW,Markov_node *RL,Markov_node *PL,Markov_node *SL){
+	std::string machine_choice;
+	switch (winner_previous){
+		//If the previous game was a tie
+		case 0 :
+			if (user_choice_previous == "p"){
+				machine_choice = markov_choice(PT);
+			} else if (user_choice_previous =="r"){
+				machine_choice = markov_choice(RT);
+			}else if(user_choice_previous == "s"){
+				machine_choice = markov_choice(ST);
+			}else{
+				std::cout << "Error in calculating machine's choice\n";
+				machine_choice = random_ppt();
+			}
+			break;
+		//Previous game the user won
+		case 1 :
+			if (user_choice_previous == "p"){
+				machine_choice = markov_choice(PW);
+			} else if (user_choice_previous =="r"){
+				machine_choice = markov_choice(RW);
+			}else if(user_choice_previous == "s"){
+				machine_choice = markov_choice(SW);
+			}else{
+				std::cout << "Error in machine's choice\n";
+				machine_choice = random_ppt();
+			}
+			break;
+		//Previous game the user lost
+		case 2 :
+			if (user_choice_previous == "p"){
+				machine_choice = markov_choice(PL);
+			} else if (user_choice_previous =="r"){
+				machine_choice = markov_choice(RL);
+			}else if(user_choice_previous == "s"){
+				machine_choice = markov_choice(SL);
+			}else{
+				std::cout << "Error in machine's choice\n";
+				machine_choice = random_ppt();
+			}
+			break;
+		default : 
+			std::cout << "Error while calculating machine's choice\n";
+	}
+
+	return machine_choice;
+
+}
+
+void update_all_markov(int winner_previous,std::string user_choice, std::string user_choice_previous,Markov_node *RT,Markov_node *PT,Markov_node *ST,Markov_node *RW,Markov_node *PW,Markov_node *SW,Markov_node *RL,Markov_node *PL,Markov_node *SL){
+	//Update markov's weights
+	switch (winner_previous){
+		//If the previous game was a tie
+		case 0 :
+			if (user_choice_previous == "p"){
+				update_markov(PT,user_choice);
+			} else if (user_choice_previous =="r"){
+				update_markov(RT, user_choice);
+			}else if(user_choice_previous == "s"){
+				update_markov(ST, user_choice);
+			}else{
+				std::cout << "Error in markov update\n";
+			}
+			break;
+		//Previous game the user won
+		case 1 :
+			if (user_choice_previous == "p"){
+				update_markov(PW,user_choice);
+			} else if (user_choice_previous =="r"){
+				update_markov(RW, user_choice);
+			}else if(user_choice_previous == "s"){
+				update_markov(SW, user_choice);
+			}else{
+				std::cout << "Error in markov update\n";
+			}
+			break;
+		//Previous game the user lost
+		case 2 :
+			if (user_choice_previous == "p"){
+				update_markov(PL,user_choice);
+			} else if (user_choice_previous =="r"){
+				update_markov(RL, user_choice);
+			}else if(user_choice_previous == "s"){
+				update_markov(SL, user_choice);
+			}else{
+				std::cout << "Error in markov update\n";
+			}
+			break;
+		default : 
+			std::cout << "There was an error in the markov update\n";
+	}
+		
 }
 
 
