@@ -1,3 +1,5 @@
+all: RPS_hVm RPS_batch_mar_vs_sec
+
 RPS_hVm: RPS_human_vs_machine.o ppt.o
 	g++ RPS_human_vs_machine.o ppt.o -o RPS_hVm
 
