@@ -1,5 +1,4 @@
 Code Refactor :
-- update makefile to generate 2 exec files
 - Check Codding style
 - Add Github CI little by little
 
