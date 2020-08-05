@@ -1,11 +1,10 @@
 Code Refactor :
+- update makefile to generate 2 exec files
 - Check Codding style
 - Add Github CI little by little
 
 
 Algorithm :
-- Implement machine vs machine 100 games match 
-- Implement smart human (second guessing)
 - Implement single markov chain
 - Implement slow varying (forgetting factor) markov update
 - Compare results
