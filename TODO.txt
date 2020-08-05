@@ -1,6 +1,5 @@
 Code Refactor :
 - Check Codding style
-- Add Makefile
 - Add Github CI little by little
 
 

@@ -79,7 +79,7 @@ void print_markov_node(struct Markov_node *node){
 
 void update_markov(struct Markov_node *node, std::string obs_choice){
 	
-	print_markov_node(node);
+	//print_markov_node(node);
 
 	node->nb_times = node->nb_times + 1;
 	if (obs_choice == "r"){
@@ -99,7 +99,7 @@ void update_markov(struct Markov_node *node, std::string obs_choice){
 	node->proba_P = 1.0 * node->nb_times_toP/node->nb_times;
 	//Probability next move is Scissors
 	node->proba_S = 1.0 * node->nb_times_toS/node->nb_times;
-	print_markov_node(node);
+	//print_markov_node(node);
 }
 
 
@@ -232,6 +232,13 @@ void display_statistics(int nb_games_user_won,int nb_games_machine_won,int nb_ga
 	
 }
 
+void display_statistics_batch(int nb_games_user_won,int nb_games_machine_won,int nb_games_tie){
+	std::cout << "Statistics : Second Guessing won " + std::to_string(100 * nb_games_user_won/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
+	std::cout << "Statistics : Markov Won " + std::to_string(100 * nb_games_machine_won/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
+	std::cout << "Statistics : Tied " + std::to_string(100 * nb_games_tie/ (nb_games_machine_won + nb_games_user_won + nb_games_tie))+ " percent of the games\n";
+	
+}
+
 void display_exit_message(void){
 	std::cout << "Thanks for playing with me. Hope to see you soon :-)\n";
 }
@@ -258,6 +265,31 @@ void save_log_file(std::string user_choice_history,std::string machine_choice_hi
 
 	outfile << "User choice history: " + user_choice_history << std::endl;
 	outfile << "Machine choice history: " + machine_choice_history << std::endl;
+
+	//Close the log file
+	outfile.close();
+}
+
+void save_log_file_batch(std::string user_choice_history,std::string machine_choice_history){
+
+	std::string log_file_name;
+
+	//Create the log file name using the date and time
+	std::time_t t = std::time(0);   // get time now
+    std::tm* now = std::localtime(&t);
+
+	log_file_name = "log_rps_batch_" + std::to_string((now->tm_year + 1900)) + "-";
+	log_file_name += std::to_string((now->tm_mon + 1)) + "-";
+	log_file_name += std::to_string(now->tm_mday) + "@";
+	log_file_name += std::to_string(now->tm_hour) + "h";
+	log_file_name += std::to_string(now->tm_min) + "m";
+    log_file_name += std::to_string(now->tm_sec) + "s";
+	log_file_name += ".txt";
+
+	std::ofstream outfile (log_file_name);
+
+	outfile << "Second Guess history: " + user_choice_history << std::endl;
+	outfile << "Markov history: " + machine_choice_history << std::endl;
 
 	//Close the log file
 	outfile.close();
@@ -385,4 +417,16 @@ void update_all_markov(int winner_previous,std::string user_choice, std::string 
 		
 }
 
+std::string get_second_guessing_choice(std::string user_choice_previous){
+	
+	if(user_choice_previous == "r"){
+		return "s";
+	}else if(user_choice_previous == "p"){
+		return "r";
+	}else if(user_choice_previous == "s"){
+		return "p";
+	} else {
+		return "e";
+	}
 
+}

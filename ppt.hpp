@@ -57,7 +57,8 @@ void display_machine_choice(std::string machine_choice);
 std::string get_machine_next_move(int winner_previous,std::string user_choice_previous,Markov_node *RT,Markov_node *PT,Markov_node *ST,Markov_node *RW,Markov_node *PW,Markov_node *SW,Markov_node *RL,Markov_node *PL,Markov_node *SL);
 void update_all_markov(int winner_previous, std::string user_choice, std::string user_choice_previous,Markov_node *RT,Markov_node *PT,Markov_node *ST,Markov_node *RW,Markov_node *PW,Markov_node *SW,Markov_node *RL,Markov_node *PL,Markov_node *SL);
 void init_all_markov(Markov_node *RW, Markov_node *RL, Markov_node *RT,Markov_node *PW, Markov_node *PL, Markov_node *PT,Markov_node *SW, Markov_node *SL, Markov_node *ST);
+std::string get_second_guessing_choice(std::string user_choice_previous);
+void save_log_file_batch(std::string user_choice_history,std::string machine_choice_history);
 
-
-
+void display_statistics_batch(int nb_games_user_won,int nb_games_machine_won,int nb_games_tie);
 
