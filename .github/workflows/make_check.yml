@@ -14,7 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: makefile
-      run: make
-    - name: batch_test
-      run: ./RPS_batch_mar_vs_sec
+      run: ./src/make
 
