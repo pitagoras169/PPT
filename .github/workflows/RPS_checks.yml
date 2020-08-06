@@ -18,3 +18,13 @@ jobs:
     - name: makefile
       working-directory: ./src/
       run: make
+  
+  unit_test:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: batch_test
+      working-directory: ./bin/
+      run: ./RPS_batch_mar_vs_sec
