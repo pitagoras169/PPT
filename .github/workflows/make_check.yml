@@ -14,5 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: makefile
-      run: ./src/make
+      working-directory: ./src/
+      run: make
 
