@@ -30,5 +30,4 @@ install: $(PROGS)
 	mv $(PROGS) $(PROG_PATH)
 
 clean:
-	rm *.o 
-	rm $(PROG_PATH)RPS*
+	rm *.o
