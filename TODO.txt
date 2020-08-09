@@ -1,4 +1,13 @@
-Code Refactor :
+Code :
+- Add wrapper of CPP in swift : simple example 
+- Add wrapper of CPP : markov algorithm
+- Add score keeping to HMI
+- Add new game button action
+- Add who choose what at the current game
+- Add count down to HMI
+- Add log file to HMI
+- Add sender of logs to HMI
+- Add 
 - Check Codding style
 - Add Github CI little by little
 
