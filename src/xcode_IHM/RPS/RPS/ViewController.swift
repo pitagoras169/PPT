@@ -10,13 +10,17 @@ import UIKit
 
 class ViewController: UIViewController {
     //Adding the background image object
-    
     let backgroundImageView = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //Set The background
         setBackground()
+    }
+    @IBAction func ExitButtonPressed(_ sender: UIButton) {
+        //Action of the exit button
+        exit(0)
     }
     func setBackground(){
         view.addSubview(backgroundImageView)

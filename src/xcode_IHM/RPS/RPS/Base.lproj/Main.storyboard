@@ -49,6 +49,9 @@
                                 <state key="normal" title="Exit Game">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="ExitButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a7C-OW-gEg"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqe-Al-PjM">
                                 <rect key="frame" x="294" y="64" width="120" height="36"/>
