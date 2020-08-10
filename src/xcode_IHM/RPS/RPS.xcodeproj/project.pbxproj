@@ -13,6 +13,7 @@
 		FB2DE48524E02D100047C2B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB2DE48324E02D100047C2B5 /* Main.storyboard */; };
 		FB2DE48724E02D110047C2B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB2DE48624E02D110047C2B5 /* Assets.xcassets */; };
 		FB2DE48A24E02D110047C2B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB2DE48824E02D110047C2B5 /* LaunchScreen.storyboard */; };
+		FB6202C924E186F3006A32F2 /* RPS_calc.c in Sources */ = {isa = PBXBuildFile; fileRef = FB6202C824E186F3006A32F2 /* RPS_calc.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		FB2DE48624E02D110047C2B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB2DE48924E02D110047C2B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB2DE48B24E02D110047C2B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB6202C624E181D1006A32F2 /* RPS-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RPS-Bridging-Header.h"; sourceTree = "<group>"; };
+		FB6202C724E186F3006A32F2 /* RPS_calc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RPS_calc.h; sourceTree = "<group>"; };
+		FB6202C824E186F3006A32F2 /* RPS_calc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = RPS_calc.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,9 @@
 		FB2DE47C24E02D100047C2B5 /* RPS */ = {
 			isa = PBXGroup;
 			children = (
+				FB6202C824E186F3006A32F2 /* RPS_calc.c */,
+				FB6202C624E181D1006A32F2 /* RPS-Bridging-Header.h */,
+				FB6202C724E186F3006A32F2 /* RPS_calc.h */,
 				FB2DE47D24E02D100047C2B5 /* AppDelegate.swift */,
 				FB2DE47F24E02D100047C2B5 /* SceneDelegate.swift */,
 				FB2DE48124E02D100047C2B5 /* ViewController.swift */,
@@ -141,6 +148,7 @@
 			files = (
 				FB2DE48224E02D100047C2B5 /* ViewController.swift in Sources */,
 				FB2DE47E24E02D100047C2B5 /* AppDelegate.swift in Sources */,
+				FB6202C924E186F3006A32F2 /* RPS_calc.c in Sources */,
 				FB2DE48024E02D100047C2B5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,6 +295,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				COPY_HEADERS_RUN_UNIFDEF = NO;
 				DEVELOPMENT_TEAM = 5S9T4567XN;
 				INFOPLIST_FILE = RPS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
