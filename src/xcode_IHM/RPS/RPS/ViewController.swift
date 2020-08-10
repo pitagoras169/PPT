@@ -20,7 +20,6 @@ class ViewController: UIViewController {
     }
     @IBAction func ExitButtonPressed(_ sender: UIButton) {
         //Action of the exit button
-        print("Hello \(factorial(5))!")
         exit(0)
     }
     func setBackground(){
