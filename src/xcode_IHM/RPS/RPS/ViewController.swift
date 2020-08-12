@@ -24,17 +24,14 @@ class ViewController: UIViewController {
     //Adding the background image object
     let backgroundImageView = UIImageView()
     
-    //Text for label that shows the score of the machine
-    @IBOutlet weak var machine_score_label: UILabel!
+    //Text to display the text that keeps the score
+    @IBOutlet weak var score_label: UILabel!
     //Text to display who won
     @IBOutlet weak var current_winner: UILabel!
-    //Text for label that shows the score of the human
-    @IBOutlet weak var human_score_label: UILabel!
     
-    @IBOutlet weak var human_choice_label: UILabel!
+    @IBOutlet weak var image_human_choice: UIImageView!
     
-    @IBOutlet weak var machine_choice_label: UILabel!
-    
+    @IBOutlet weak var image_machine_choice: UIImageView!
     
     var user_choices = ""
     var machine_choices = ""
@@ -53,11 +50,8 @@ class ViewController: UIViewController {
         //Set The background
         setBackground()
         //Set initial state of wins for the user and the machine
-        machine_score_label.text = String(0)
-        human_score_label.text = String(0)
+        score_label.text = "Human  0 - 0  Machine"
         current_winner.text = ""
-        human_choice_label.text = ""
-        machine_choice_label.text = ""
 
     }
     @IBAction func ExitButtonPressed(_ sender: UIButton) {
@@ -80,20 +74,11 @@ class ViewController: UIViewController {
         
         
         update_HMI_after_play(user_choices: user_choices ,machine_choices: machine_choices)
-        human_choice_label.text = "Human : Scissors"
         
         
         let current_machine = String(machine_choices[machine_choices.index(machine_choices.startIndex,offsetBy: machine_choices.count-1)])
         
-        if (current_machine == "r") {
-            machine_choice_label.text = "Machine : Rock"
-        }
-        if (current_machine == "s") {
-            machine_choice_label.text = "Machine : Scissors"
-        }
-        if (current_machine == "p") {
-            machine_choice_label.text = "Machine : Paper"
-        }
+
         
         //Reccord history
         user_choice_2 = user_choice_1
@@ -115,19 +100,8 @@ class ViewController: UIViewController {
                 
         update_HMI_after_play(user_choices: user_choices ,machine_choices: machine_choices)
         
-        human_choice_label.text = "Human : Paper"
 
         let current_machine = String(machine_choices[machine_choices.index(machine_choices.startIndex,offsetBy: machine_choices.count-1)])
-        
-        if (current_machine == "r") {
-            machine_choice_label.text = "Machine : Rock"
-        }
-        if (current_machine == "s") {
-            machine_choice_label.text = "Machine : Scissors"
-        }
-        if (current_machine == "p") {
-            machine_choice_label.text = "Machine : Paper"
-        }
         
         
         //Reccord history
@@ -151,19 +125,10 @@ class ViewController: UIViewController {
 
         update_HMI_after_play(user_choices: user_choices ,machine_choices: machine_choices)
         //print("User choices = " + user_choices)
-        human_choice_label.text = "Human : Rock"
 
         let current_machine = String(machine_choices[machine_choices.index(machine_choices.startIndex,offsetBy: machine_choices.count-1)])
         
-        if (current_machine == "r") {
-            machine_choice_label.text = "Machine : Rock"
-        }
-        if (current_machine == "s") {
-            machine_choice_label.text = "Machine : Scissors"
-        }
-        if (current_machine == "p") {
-            machine_choice_label.text = "Machine : Paper"
-        }
+       
         
         
         //Reccord history
@@ -178,14 +143,13 @@ class ViewController: UIViewController {
         user_choices = ""
         machine_choices = ""
         //Set initial state of wins for the user and the machine
-        machine_score_label.text = String(0)
-        human_score_label.text = String(0)
-        current_winner.text = ""
-        human_choice_label.text = ""
-        machine_choice_label.text = ""
+        score_label.text = "Human  0 - 0  Machine"
+        current_winner.text = "-"
         single_markov = reset_markov(chain_input: single_markov)
         user_choice_2 = "r"
         user_choice_1 = "r"
+        image_human_choice.image = UIImage(named:"transparent")
+        image_machine_choice.image = UIImage(named:"transparent")
     }
     
     func reset_markov(chain_input : Markov_chain) -> (Markov_chain){
@@ -294,9 +258,10 @@ class ViewController: UIViewController {
     func update_HMI_after_play(user_choices : String,machine_choices : String) -> Void {
         //Check the history of each player to determine the text to show
         let stats_game = getStatistics(user_choices: String(user_choices) , machine_choices: String(machine_choices))
-        machine_score_label.text = String(stats_game.1)
-        human_score_label.text = String(stats_game.0)
+        let n = user_choices.count - 1
         
+        score_label.text = "Human  " + String(stats_game.0) + " - " + String(stats_game.1) + "  Machine"
+
         let current_game_winner = getWinner(user_choices: String(user_choices) , machine_choices: String(machine_choices))
         if (current_game_winner == 1){
             current_winner.text = "You win !"
@@ -306,6 +271,50 @@ class ViewController: UIViewController {
         }
         if (current_game_winner == 3){
             current_winner.text = "Tie !"
+        }
+        
+        //Set the green and red icons if the user wins
+        if ((current_game_winner == 1)&&(user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "r")){
+            image_human_choice.image = UIImage(named:"Rock_green")
+            image_machine_choice.image = UIImage(named:"Scissors_red")
+        }
+        if ((current_game_winner == 1)&&(user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "s")){
+            image_human_choice.image = UIImage(named: "Scissors_green")
+            image_machine_choice.image = UIImage(named: "Paper_red")
+        }
+        if ((current_game_winner == 1)&&(user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "p")){
+            image_human_choice.image = UIImage(named:"Paper_green")
+            image_machine_choice.image = UIImage(named:"Rock_red")
+        }
+        
+        
+        //Set the green and red icons if the user looses
+        if ((current_game_winner == 2)&&(user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "r")){
+            image_human_choice.image = UIImage(named:"Rock_red")
+            image_machine_choice.image = UIImage(named:"Paper_green")
+        }
+        if ((current_game_winner == 2)&&(user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "s")){
+            image_human_choice.image = UIImage(named:"Scissors_red")
+            image_machine_choice.image = UIImage(named:"Rock_green")
+        }
+        if ((current_game_winner == 2)&&(user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "p")){
+            image_human_choice.image = UIImage(named:"Paper_red")
+            image_machine_choice.image = UIImage(named:"Scissors_green")
+        }
+        
+        
+        //Set the green and red icons if there is a tie
+        if ((current_game_winner == 3) && (user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "r")){
+            image_human_choice.image = UIImage(named:"rock_round 120")
+            image_machine_choice.image = UIImage(named:"rock_round 120")
+        }
+        if ((current_game_winner == 3) && (user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "s")){
+            image_human_choice.image = UIImage(named:"scissors_round_120")
+            image_machine_choice.image = UIImage(named:"scissors_round_120")
+        }
+        if ((current_game_winner == 3) && (user_choices[user_choices.index(user_choices.startIndex, offsetBy: n)] == "p")){
+            image_human_choice.image = UIImage(named:"paper_round 120")
+            image_machine_choice.image = UIImage(named:"paper_round 120")
         }
         
     }
