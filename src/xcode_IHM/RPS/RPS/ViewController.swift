@@ -58,7 +58,6 @@ class ViewController: UIViewController {
         current_winner.text = ""
         human_choice_label.text = ""
         machine_choice_label.text = ""
-        print_markov(chain_input : single_markov)
 
     }
     @IBAction func ExitButtonPressed(_ sender: UIButton) {
@@ -154,7 +153,6 @@ class ViewController: UIViewController {
         //print("User choices = " + user_choices)
         human_choice_label.text = "Human : Rock"
 
-        print("Machine choices = " + machine_choices)
         let current_machine = String(machine_choices[machine_choices.index(machine_choices.startIndex,offsetBy: machine_choices.count-1)])
         
         if (current_machine == "r") {
