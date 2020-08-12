@@ -74,10 +74,6 @@ class ViewController: UIViewController {
         
         
         update_HMI_after_play(user_choices: user_choices ,machine_choices: machine_choices)
-        
-        
-        let current_machine = String(machine_choices[machine_choices.index(machine_choices.startIndex,offsetBy: machine_choices.count-1)])
-        
 
         
         //Reccord history
@@ -100,10 +96,7 @@ class ViewController: UIViewController {
                 
         update_HMI_after_play(user_choices: user_choices ,machine_choices: machine_choices)
         
-
-        let current_machine = String(machine_choices[machine_choices.index(machine_choices.startIndex,offsetBy: machine_choices.count-1)])
-        
-        
+    
         //Reccord history
         user_choice_2 = user_choice_1
         user_choice_1 = "p"
