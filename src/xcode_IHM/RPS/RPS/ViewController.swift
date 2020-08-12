@@ -56,6 +56,10 @@ class ViewController: UIViewController {
     }
     @IBAction func ExitButtonPressed(_ sender: UIButton) {
         //Action of the exit button
+        
+        //Record the file with the game
+        log_game_data()
+        
         exit(0)
     }
     
@@ -118,9 +122,6 @@ class ViewController: UIViewController {
 
         update_HMI_after_play(user_choices: user_choices ,machine_choices: machine_choices)
         //print("User choices = " + user_choices)
-
-        let current_machine = String(machine_choices[machine_choices.index(machine_choices.startIndex,offsetBy: machine_choices.count-1)])
-        
        
         
         
@@ -130,8 +131,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func new_game_actions(_ sender: Any) {
-        //place holder to reccord the game history before erasing it
-        
+        //Reccord the game history before erasing it
+        log_game_data()
+
         //reset the user_choices history
         user_choices = ""
         machine_choices = ""
@@ -162,6 +164,29 @@ class ViewController: UIViewController {
     func print_markov(chain_input : Markov_chain) -> (Void){
         let chain = chain_input
         print(chain)
+    }
+    
+    func log_game_data(){
+        // Log data to file
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd-yyyy HH-mm-ss"
+        let result_date = formatter.string(from: date)
+        
+        let fileName = "RPS_" + result_date
+        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+
+        let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
+        print("FilePath: \(fileURL.path)")
+        
+        let writeString = "USER=" + user_choices + "\nMACHINE=" + machine_choices
+        do {
+            // Write to the file
+            try writeString.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+
+        } catch let error as NSError {
+            print("Failed writing to URL: \(fileURL), Error: " + error.localizedDescription)
+        }
     }
     
     func markov_choice(chain_input : Markov_chain, user_choice_1 : String) -> (String){
